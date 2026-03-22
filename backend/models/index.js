@@ -1,14 +1,16 @@
+const { DataTypes } = require('sequelize');        // <-- ADD THIS
 const sequelize = require('../config/database');
 
-const User = require('./User')(sequelize);
-const Business = require('./Business')(sequelize);
-const Product = require('./Product')(sequelize);
-const Supplier = require('./Supplier')(sequelize);
-const Purchase = require('./Purchase')(sequelize);
-const Customer = require('./Customer')(sequelize);
-const Sale = require('./Sale')(sequelize);
-const SaleItem = require('./SaleItem')(sequelize);
-const CreditTransaction = require('./CreditTransaction')(sequelize);
+// Pass DataTypes as second argument
+const User = require('./User')(sequelize, DataTypes);
+const Business = require('./Business')(sequelize, DataTypes);
+const Product = require('./Product')(sequelize, DataTypes);
+const Supplier = require('./Supplier')(sequelize, DataTypes);
+const Purchase = require('./Purchase')(sequelize, DataTypes);
+const Customer = require('./Customer')(sequelize, DataTypes);
+const Sale = require('./Sale')(sequelize, DataTypes);
+const SaleItem = require('./SaleItem')(sequelize, DataTypes);
+const CreditTransaction = require('./CreditTransaction')(sequelize, DataTypes);
 
 // Associations
 Purchase.belongsTo(Product, { foreignKey: 'productId' });
@@ -18,9 +20,6 @@ SaleItem.belongsTo(Sale, { foreignKey: 'saleId' });
 SaleItem.belongsTo(Product, { foreignKey: 'productId' });
 CreditTransaction.belongsTo(Customer, { foreignKey: 'customerId' });
 CreditTransaction.belongsTo(Sale, { foreignKey: 'saleId' });
-
-// For scoping by business, all models will have businessId
-// We'll add scope in queries manually
 
 module.exports = {
   sequelize,
